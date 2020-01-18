@@ -1,0 +1,29 @@
+function [ signal ] = HDB3(signal)
+
+    no_of_one=0;
+    count=0;
+    prev=-1;
+    n=length(signal);
+    for i=1:n
+        if(signal(i)==0)
+            count=count+1;
+        else
+            signal(i)=-1*prev;
+            prev=signal(i);
+            no_of_one=no_of_one+1;  
+            count=0;
+        end
+        if(count==4)
+            if(mod(no_of_one,2)==0)
+                signal(i)=-prev;
+                signal(i-3)=-prev;
+                prev=-1*prev;
+            else
+                signal(i)=prev;               
+            end
+            count=0;
+            no_of_one=0;
+        end
+    end
+end
+

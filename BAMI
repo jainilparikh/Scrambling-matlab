@@ -1,0 +1,13 @@
+function [ signal ] = BAMI( signal )
+n=length(signal);
+prev=-1;
+for i= 1:n
+    
+if(signal(i)~=0)
+    signal(i)=-1*prev;
+    prev=signal(i);
+end
+
+end
+end
+

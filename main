@@ -1,0 +1,40 @@
+function []= CCN ()
+signal=[1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1 1 0 0 0 0 ];
+AMP1=2;%Amplitude of BAMI signal
+AMP2=2;%Amplitude of B8ZS signal
+AMP3=2;%Amplitude of HDB3 signal
+
+Ref_Data_Rate=8;%in bits/second
+Req_Data_Rate=16;%in bits/second
+Dat=Req_Data_Rate/Ref_Data_Rate;
+n=length(signal);
+
+BAMIsignal=BAMI(signal)*AMP1;
+HDB3signal=((HDB3(BAMI(signal))*AMP2)-(AMP1+AMP2+2));
+B8ZSsignal=((B8ZS(BAMI(signal))*AMP3)-(AMP2+AMP1+AMP3+8));
+BAMIsignal(n+1)=BAMIsignal(n);
+HDB3signal(n+1)=HDB3signal(n);
+B8ZSsignal(n+1)=B8ZSsignal(n);
+
+[xb,yb]=stairs(1:n+1,BAMIsignal);
+[xh,yh]=stairs(1:n+1,HDB3signal);
+[xz,yz]=stairs(1:n+1,B8ZSsignal);
+
+plot(xb,yb,'LineWidth',2)
+hold on
+plot(xh,yh,'LineWidth',2)
+hold on
+plot(xz,yz,'LineWidth',2)
+hold on
+legend( strcat('Bipolar AMI without Scrambling ',num2str(Ref_Data_Rate),' bits/s'),strcat('Bipolar AMI with HDB3 Scrambling ',num2str(Ref_Data_Rate),' bits/s'),strcat('Bipolar AMI with B8ZS Scrambling ',num2str(Ref_Data_Rate),' bits/s'),'Location','northoutside');
+axis([1 n+1 -(AMP1+AMP2*2+AMP3*2+8) AMP1+2 ])
+hold on
+grid on
+
+ylabel('Signals with amplitudes');
+xlabel('seconds');
+
+end
+
+
+ 

@@ -1,0 +1,25 @@
+function [ signal ] = B8ZS( signal )
+
+n=length(signal);
+prev=-1;
+count=0;
+for i=1:n
+   
+    if(signal(i)==0)
+        count=count+1;
+    else
+        prev=(signal(i));
+        count=0;
+    end
+    if(count==8)
+        v=prev;
+        signal(i)=v;
+        signal(i-1)=-v;
+        signal(i-3)=-v;
+        signal(i-4)=v;
+        count=0;
+    end
+end
+
+end
+
